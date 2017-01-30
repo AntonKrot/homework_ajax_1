@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table id="table">
+        <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Birth Day</th>
+            <th>Profession</th>
+            <th>Adress</th>
+            <th>Check</th>
+            <th>Remove</th>
+        </tr>
+        </thead>
+    </table>
+    <style>
+        th,
+        tr,
+        td {
+            border: 1px solid #000;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #000;
+            text-align: center;
+        }
+
+    </style>
+    <script>
+        var table = document.getElementById("table"),
+            btnRemove = document.getElementsByName("btn-remove");
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/data.json");
+
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState !== 4) {
+                return;
+            }
+            var pars = JSON.parse(this.responseText);
+
+            for (i = 0; i < pars.data.length; i++) {
+                var newTr = document.createElement("tr");
+                    table.appendChild(newTr);
+
+                var tdUsername = document.createElement("td");
+                    tdUsername.innerText = pars.data[i][0];
+                    newTr.appendChild(tdUsername);
+
+                var tdBirthday = document.createElement("td");
+                    tdBirthday.innerText = pars.data[i][1];
+                    newTr.appendChild(tdBirthday);
+
+                var tdProfession = document.createElement("td");
+                    tdProfession.innerText = pars.data[i][2];
+                    newTr.appendChild(tdProfession);
+
+                var tdAdress = document.createElement("td");
+                    tdAdress.innerText = pars.data[i][3];
+                    newTr.appendChild(tdAdress);
+
+                var newTdcheck = document.createElement("td");
+                    newTdcheck.innerHTML = '<input type="checkbox">';
+                    newTr.appendChild(newTdcheck);
+
+                var newTdbutton = document.createElement("td");
+                    newTdbutton.innerHTML = '<button type="submit" name="btn-remove">Remove</button>';
+                    newTr.appendChild(newTdbutton);
+
+                newTdbutton.addEventListener("click", function () {
+                    var checks =  document.querySelectorAll('input:checked');
+                    for (var i = 0, check; check = checks[i]; i++) {
+                        var newTr = check.parentNode.parentNode;
+                        if (check.parentNode.parentNode == true) {
+                            newTr.style.backgroundColor = '#F8553D';
+                        }
+                        var parent = newTr.parentNode;
+                        parent.removeChild(newTr);
+                    }
+                });
+            }
+        });
+        xhr.send();
+    </script>
+</body>
+</html>
