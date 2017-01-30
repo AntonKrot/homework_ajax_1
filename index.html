@@ -76,9 +76,6 @@
                     var checks =  document.querySelectorAll('input:checked');
                     for (var i = 0, check; check = checks[i]; i++) {
                         var newTr = check.parentNode.parentNode;
-                        if (check.parentNode.parentNode == true) {
-                            newTr.style.backgroundColor = '#F8553D';
-                        }
                         var parent = newTr.parentNode;
                         parent.removeChild(newTr);
                     }
